@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const PriceRangeDropdown = () => {
   return <div>PriceRangeDropdown</div>;
