@@ -5,11 +5,11 @@ import { housesData } from "../utils/data";
 export const HouseContext = createContext();
 
 export const HouseContextProvider = ({ children }) => {
-  const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
   const [properties, setProperties] = useState([]);
   const [houses, setHouses] = useState(housesData);
+  const [price, setPrice] = useState("Price range (any)");
   const [country, setCountry] = useState("Location (any)");
   const [property, setProperty] = useState("Property type (any)");
 
