@@ -14,7 +14,78 @@ export const HouseContextProvider = ({ children }) => {
   const [property, setProperty] = useState("Property type (any)");
 
   const handleClick = () => {
-    console.log("Clicked");
+    const isDefault = (str) => {
+      return str.split(" ").includes("(any)");
+    };
+
+    const minPrice = parseInt(price.split(" ")[0]);
+    const maxPrice = parseInt(price.split(" ")[2]);
+
+    // eslint-disable-next-line array-callback-return
+    const filteredHouses = housesData.filter((house) => {
+      setLoading(true);
+
+      const housePrice = parseInt(house.price);
+      if (
+        house.country === country &&
+        house.type === property &&
+        housePrice >= minPrice &&
+        housePrice <= maxPrice
+      ) {
+        return house;
+      } else if (
+        !isDefault(country) &&
+        isDefault(property) &&
+        isDefault(price)
+      ) {
+        return house.country === country;
+      } else if (
+        isDefault(country) &&
+        !isDefault(property) &&
+        isDefault(price)
+      ) {
+        return house.type === property;
+      } else if (
+        isDefault(country) &&
+        isDefault(property) &&
+        !isDefault(price)
+      ) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house;
+        }
+      } else if (
+        !isDefault(country) &&
+        !isDefault(property) &&
+        isDefault(price)
+      ) {
+        return house.country === country && house.type === property;
+      } else if (
+        !isDefault(country) &&
+        isDefault(property) &&
+        !isDefault(price)
+      ) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.country === country;
+        }
+      } else if (
+        isDefault(country) &&
+        !isDefault(property) &&
+        !isDefault(price)
+      ) {
+        if (housePrice >= minPrice && housePrice <= maxPrice) {
+          return house.type === property;
+        }
+      } else {
+        return house;
+      }
+    });
+
+    setTimeout(() => {
+      return (
+        filteredHouses.length < 1 ? setHouses([]) : setHouses(filteredHouses),
+        setLoading(false)
+      );
+    }, 1000);
   };
 
   useEffect(() => {
