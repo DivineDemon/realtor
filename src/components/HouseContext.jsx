@@ -75,8 +75,6 @@ export const HouseContextProvider = ({ children }) => {
         if (housePrice >= minPrice && housePrice <= maxPrice) {
           return house.type === property;
         }
-      } else {
-        return house;
       }
     });
 
