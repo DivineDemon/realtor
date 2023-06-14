@@ -1,14 +1,16 @@
 import React, { useState, createContext, useEffect } from "react";
-
-import { housesData } from "../utils/data";
+import { useGetHousesQuery } from "../store/slices/houseSlice";
 
 export const HouseContext = createContext();
 
 export const HouseContextProvider = ({ children }) => {
+  const { data } = useGetHousesQuery();
+  console.log(data);
+
   const [loading, setLoading] = useState(false);
   const [countries, setCountries] = useState([]);
   const [properties, setProperties] = useState([]);
-  const [houses, setHouses] = useState(housesData);
+  const [houses, setHouses] = useState(data);
   const [price, setPrice] = useState("Price range (any)");
   const [country, setCountry] = useState("Location (any)");
   const [property, setProperty] = useState("Property type (any)");
@@ -22,7 +24,7 @@ export const HouseContextProvider = ({ children }) => {
     const maxPrice = parseInt(price.split(" ")[2]);
 
     // eslint-disable-next-line array-callback-return
-    const filteredHouses = housesData.filter((house) => {
+    const filteredHouses = data.filter((house) => {
       setLoading(true);
 
       const housePrice = parseInt(house.price);
