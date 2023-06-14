@@ -1,6 +1,6 @@
 import React from "react";
 
-// import Search from "../components/Search";
+import Search from "../components/Search";
 import Image from "../assets/img/house-banner.png";
 
 const Banner = () => {
@@ -23,7 +23,7 @@ const Banner = () => {
           <img src={Image} alt="banner" />
         </div>
       </div>
-      {/* <Search /> */}
+      <Search />
     </section>
   );
 };
