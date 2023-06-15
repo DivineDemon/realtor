@@ -1,12 +1,25 @@
 import { Menu } from "@headlessui/react";
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RiMapPinLine, RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 
-import { HouseContext } from "./HouseContext";
+import { setCountry } from "../store/house/houseSlice";
 
 const CountryDropdown = () => {
+  const dispatch = useDispatch();
+  const { houses, country } = useSelector((state) => state.house);
+
   const [isOpen, setIsOpen] = useState(false);
-  const { country, setCountry, countries } = useContext(HouseContext);
+  const [countries, setCountries] = useState([country]);
+
+  useEffect(() => {
+    const allCountries = houses.map((house) => {
+      return house.country;
+    });
+
+    setCountries([country, ...new Set(allCountries)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [houses]);
 
   return (
     <Menu as="div" className="dropdown relative">
@@ -29,7 +42,7 @@ const CountryDropdown = () => {
         {countries.map((country, index) => {
           return (
             <Menu.Item
-              onClick={() => setCountry(country)}
+              onClick={() => dispatch(setCountry(country))}
               className="cursor-pointer hover:text-violet-700 transition"
               as="li"
               key={index}

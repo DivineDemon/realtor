@@ -1,25 +1,35 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ImSpinner2 } from "react-icons/im";
+import { useDispatch, useSelector } from "react-redux";
 
 import House from "./House";
-import { HouseContext } from "./HouseContext";
+import { getHouses } from "../store/house/houseSlice";
 
 const HouseList = () => {
-  const { houses, loading } = useContext(HouseContext);
+  const dispatch = useDispatch();
+  const { isError, isLoading, houses, message } = useSelector(
+    (state) => state.house
+  );
 
-  if (loading) {
+  const [error, setError] = useState(message);
+
+  useEffect(() => {
+    if (isError) {
+      setError(message);
+    }
+
+    dispatch(getHouses());
+  }, [isError, message, dispatch]);
+
+  if (isLoading) {
     return (
       <ImSpinner2 className="mx-auto animate-spin text-violet-700 text-4xl mt-[200px" />
     );
   }
 
-  if (houses.length < 1) {
-    return (
-      <div className="text-center text-3xl text-gray-400 mt-48">
-        Sorry, Nothing Found!
-      </div>
-    );
+  if (isError) {
+    <div className="text-center text-3xl text-gray-400 mt-48">{error}</div>;
   }
 
   return (

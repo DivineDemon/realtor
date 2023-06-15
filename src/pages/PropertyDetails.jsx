@@ -1,14 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import millify from "millify";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { BiBed, BiBath, BiArea } from "react-icons/bi";
-
-import { housesData } from "../utils/data";
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const house = housesData.find((house) => {
-    return house.id === parseInt(id);
+  const { houses } = useSelector((state) => state.house);
+
+  const house = houses.find((house) => {
+    return house.id === id;
   });
 
   return (
@@ -53,7 +54,7 @@ const PropertyDetails = () => {
             <div>{house.description}</div>
           </div>
           <div className="flex-1 bg-white w-full mb-8 border border-gray-300 rounded-lg px-6 py-8">
-            <div className="flex items-center gap-x-4 mb-8">
+            {/* <div className="flex items-center gap-x-4 mb-8">
               <div className="w-20 h-20 p-1 border border-gray-300 rounded-full">
                 <img src={house.agent.image} alt="agent" />
               </div>
@@ -63,7 +64,7 @@ const PropertyDetails = () => {
                   View Listings
                 </Link>
               </div>
-            </div>
+            </div> */}
             <form className="flex flex-col gap-y-4">
               <input
                 className="border border-gray-300 focus:border-violet-700 outline-none rounded w-full px-4 h-14 text-sm"

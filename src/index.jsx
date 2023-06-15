@@ -1,18 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import App from './App';
-import './assets/css/index.css';
-import HouseContextProvider from "./components/HouseContext";
+import App from "./App";
+import "./assets/css/index.css";
+import { store } from "./store";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <HouseContextProvider>
+  <Provider store={store}>
     <Router>
       <React.StrictMode>
         <App />
       </React.StrictMode>
     </Router>
-  </HouseContextProvider>
+  </Provider>
 );

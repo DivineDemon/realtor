@@ -1,16 +1,18 @@
 import { Menu } from "@headlessui/react";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   RiWallet3Line,
   RiArrowDownSLine,
   RiArrowUpSLine,
 } from "react-icons/ri";
 
-import { HouseContext } from "./HouseContext";
+import { setPrice } from "../store/house/houseSlice";
 
 const PriceRangeDropdown = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const { price, setPrice } = useContext(HouseContext);
+  const { price } = useSelector((state) => state.house);
 
   const prices = [
     {
@@ -64,7 +66,7 @@ const PriceRangeDropdown = () => {
         {prices.map((price) => {
           return (
             <Menu.Item
-              onClick={() => setPrice(price.value)}
+              onClick={() => dispatch(setPrice(price.value))}
               className="cursor-pointer hover:text-violet-700 transition"
               as="li"
               key={price.id}

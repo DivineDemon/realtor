@@ -1,12 +1,25 @@
 import { Menu } from "@headlessui/react";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RiHome5Line, RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 
-import { HouseContext } from "./HouseContext";
+import { setProperty } from "../store/house/houseSlice";
 
 const PropertyDropdown = () => {
+  const dispatch = useDispatch();
+  const { houses, property } = useSelector((state) => state.house);
+
   const [isOpen, setIsOpen] = useState(false);
-  const { property, setProperty, properties } = useContext(HouseContext);
+  const [properties, setProperties] = useState([property]);
+
+  useEffect(() => {
+    const allProperties = houses.map((house) => {
+      return house.type;
+    });
+
+    setProperties([property, ...new Set(allProperties)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [houses]);
 
   return (
     <Menu as="div" className="dropdown relative">
@@ -31,7 +44,7 @@ const PropertyDropdown = () => {
         {properties.map((property, index) => {
           return (
             <Menu.Item
-              onClick={() => setProperty(property)}
+              onClick={() => dispatch(setProperty(property))}
               className="cursor-pointer hover:text-violet-700 transition"
               as="li"
               key={index}
