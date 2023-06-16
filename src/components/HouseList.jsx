@@ -29,7 +29,9 @@ const HouseList = () => {
   }
 
   if (isError) {
-    <div className="text-center text-3xl text-gray-400 mt-48">{error}</div>;
+    return (
+      <div className="text-center text-3xl text-gray-400 mt-48">{error}</div>
+    );
   }
 
   return (

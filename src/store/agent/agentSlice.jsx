@@ -10,9 +10,9 @@ const initialState = {
 };
 
 // Get Agent
-export const getAgent = createAsyncThunk("/", async (user_id, thunkAPI) => {
+export const getAgent = createAsyncThunk("agent", async (agent_id, thunkAPI) => {
   try {
-    return await agentService.getAgent(user_id);
+    return await agentService.getAgent(agent_id);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -21,12 +21,16 @@ export const getAgent = createAsyncThunk("/", async (user_id, thunkAPI) => {
 export const agentSlice = createSlice({
   name: "agent",
   initialState,
+  reducers: {
+    reset: (state) => initialState,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAgent.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getAgent.fulfilled, (state, action) => {
+        // debugger;
         state.isLoading = false;
         state.isSuccess = true;
         state.agent = action.payload;
@@ -40,4 +44,5 @@ export const agentSlice = createSlice({
   },
 });
 
+export const { reset } = agentSlice.actions;
 export default agentSlice.reducer;

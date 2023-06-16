@@ -3,6 +3,7 @@ import houseService from "./houseService";
 
 const initialState = {
   houses: [],
+  house: {},
   country: "Location (any)",
   property: "Property type (any)",
   price: "Price range (any)",
@@ -13,7 +14,7 @@ const initialState = {
 };
 
 // Get Houses
-export const getHouses = createAsyncThunk("/", async (_, thunkAPI) => {
+export const getHouses = createAsyncThunk("house", async (_, thunkAPI) => {
   try {
     return await houseService.getHouses();
   } catch (error) {
@@ -40,6 +41,13 @@ export const houseSlice = createSlice({
     setHouses: (state, action) => {
       state.houses = action.payload;
     },
+    getHouse: (state, action) => {
+      const house = state.houses.find((house) => {
+        return house.id === action.payload;
+      });
+
+      state.house = house;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -60,6 +68,12 @@ export const houseSlice = createSlice({
   },
 });
 
-export const { setCountry, setProperty, setPrice, setIsLoading, setHouses } =
-  houseSlice.actions;
+export const {
+  setCountry,
+  setProperty,
+  setPrice,
+  setIsLoading,
+  setHouses,
+  getHouse,
+} = houseSlice.actions;
 export default houseSlice.reducer;
